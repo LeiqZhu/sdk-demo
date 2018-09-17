@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--project 元素是 Ant 构件文件的根元素， Ant 构件文件至少应该包含一个 project 元素，否则会发生错误。在每个 project 元素下，可包含多个 target 元素。 -->
+<!-- name 属性：用于指定 project 元素的名称。 -->
+<!-- default 属性：用于指定 project 默认执行时所执行的 target 的名称。 -->
+<!-- basedir 属性：用于指定基路径的位置。该属性没有指定时，使用 Ant 的构件文件的附目录作为基准目录。 -->
+<project default="create_run_jar" name="Create Runnable Jar for Project sdk-netty-server-v2 with libraries in sub-folder">
+	<!--this file was created by Eclipse Runnable JAR Export Wizard -->
+	<!--ANT 1.7 is required -->
+
+	<!-- property元素可看作参量或者参数的定义，project 的属性可以通过 property 元素来设定，也可在 Ant 之外设定。-->
+	<!-- 内置属性-->
+	<!-- basedir： project 基目录的绝对路径；   -->
+	<!-- ant.file： buildfile的绝对路径-->
+	<!-- ant.version： Ant 的版本信息-->
+	<!-- ant.project.name： 当前指定的project的名字-->
+	<!-- ant.java.version： Ant 检测到的JDK版本-->
+	<!-- name of the output .jar file -->
+	<property name="jar.name" value="smart-hard-v1.jar" />
+	<!-- base directory for distribution target -->
+	<property name="dist.home" value="dist/dist" />
+	<!-- The base directory for all libraries (jar) files -->
+	<property name="lib.home" value="libs" />
+	<property name="base.home" location="${basedir}/../sdk-netty" />
+
+	<property name="lib.dest" value="${dist.home}/../lib" />
+
+	<!-- target为ant的基本执行单元或是任务，它可以包含一个或多个具体的单元/任务。多个target 可以存在相互依赖关系。-->
+	<!-- name 属性：指定 target 元素的名称，这个属性在一个 project 元素中是唯一的。我们可以通过指定 target 元素的名称来指定某个 target 。-->
+	<!-- depends 属性：用于描述 target 之间的依赖关系，若与多个 target 存在依赖关系时，需要以“,”间隔。 Ant 会依照 depends 属性中 target 出现的顺序依次执行每个 target ，被依赖的target 会先执行。-->
+	<!--  if 属性：用于验证指定的属性是存在，若不存在，所在 target 将不会被执行。 -->
+	<!--  unless 属性：该属性的功能与 if 属性的功能正好相反，它也用于验证指定的属性是否存在，若不存在，所在 target 将会被执行.-->
+	<!-- description 属性：该属性是关于 target 功能的简短描述和说明。 -->
+	<target name="create_run_jar">
+		<pathconvert property="libs.project" pathsep=" ">
+			<path>
+				<!-- lib.home contains all jar files, in several subdirectories -->
+				<fileset dir="${base.home}/${lib.home}">
+					<include name="**/*.jar" />
+					<exclude name="**/*-sources.jar" />
+					<exclude name="**/*-javadoc.jar" />
+				</fileset>
+				<fileset dir="${lib.home}">
+					<include name="**/*.jar" />
+					<exclude name="**/*-sources.jar" />
+					<exclude name="**/*-javadoc.jar" />
+				</fileset>
+
+			</path>
+			<map from="${base.home}/${lib.home}/emaillibs/" to="../lib/emaillibs/" />
+			<map from="${base.home}/${lib.home}/" to="../lib/" />
+			<map from="${basedir}/${lib.home}/" to="../lib/" />
+		</pathconvert>
+		<!-- jar 标签节点元素,该标签用来生成一个JAR文件-->
+		<!-- destfile表示JAR文件名-->
+		<!-- basedir表示被归档的文件名。-->
+		<!-- includes表示别归档的文件模式。-->
+		<!-- exchudes表示被排除的文件模式。-->
+		<!-- 表示是否压缩。-->
+		<jar destfile="${dist.home}/${jar.name}">
+			<!-- mainfest是jar包中的MEAT-INF中的MANIFEST.MF中的文件内容-->
+			<manifest>
+				<attribute name="Main-Class" value="com.StartServer" />
+				<attribute name="Class-Path" value=". ${libs.project}" />
+			</manifest>
+			<fileset dir="./bin" excludes="com/test/**" />
+			<fileset dir="${base.home}/bin" excludes="com/sdk/test/**" />
+		</jar>
+		<delete dir="${lib.dest}" />
+		<mkdir dir="${lib.dest}" />
+		<!-- copy主要用来对文件和目录的复制功能。-->
+		<copy failonerror="false" todir="${lib.dest}">
+			<fileset dir="${base.home}/${lib.home}">
+				<include name="**/*.jar" />
+				<exclude name="**/*-sources.jar" />
+				<exclude name="**/*-javadoc.jar" />
+			</fileset>
+			<fileset dir="${lib.home}">
+				<include name="**/*.jar" />
+				<exclude name="**/*-sources.jar" />
+				<exclude name="**/*-javadoc.jar" />
+			</fileset>
+		</copy>
+		<copy failonerror="false" todir="${lib.dest}">
+			<fileset dir="${lib.home}">
+				<include name="**/*.jar" />
+				<exclude name="**/*-sources.jar" />
+				<exclude name="**/*-javadoc.jar" />
+			</fileset>
+		</copy>
+		<copy failonerror="false" todir="${dist.home}">
+			<fileset dir="./">
+				<include name="*.xml" />
+				<include name="*.properties" />
+				<include name="*.mmdb" />
+			</fileset>
+		</copy>
+		<!-- 该标签用于编译一个或一组java文件-->
+		<!-- srcdir表示源程序的目录。-->
+		<!-- destdir表示class文件的输出目录。-->
+		<!-- include表示被编译的文件的模式。 -->
+		<!-- excludes表示被排除的文件的模式。 -->
+		<!-- classpath表示所使用的类路径。 -->
+		<!-- debug表示包含的调试信息。 -->
+		<!-- optimize表示是否使用优化。 -->
+		<!-- verbose 表示提供详细的输出信息。 -->
+		<!-- fileonerror表示当碰到错误就自动停止。-->
+		<!--<javac>
+		</javac>-->
+		<!-- 该标签用来执行编译生成的.class文件-->
+		<!-- classname 表示将执行的类名。 -->
+		<!-- jar表示包含该类的JAR文件名。-->
+		<!-- classpath所表示用到的类路径。-->
+		<!--  fork表示在一个新的虚拟机中运行该类。-->
+		<!-- failonerror表示当出现错误时自动停止。-->
+		<!-- output 表示输出文件。-->
+		<!-- append表示追加或者覆盖默认文件。-->
+		<!--<java>
+		</java>-->
+	</target>
+</project>

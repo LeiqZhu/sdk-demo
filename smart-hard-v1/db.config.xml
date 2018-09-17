@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<daos>
+		<!-- mysql -->
+		<dao name="default-db" class="com.sdk.core.db.DbDaoCreator"
+			enabled="false">
+			<p key="jdbc.driverClassName">com.mysql.jdbc.Driver</p>
+			<!--<p key="jdbc.url"><![CDATA[jdbc:mysql://rds-3rd-002.cc91vexboxbf.us-west-2.rds.amazonaws.com:3306/quick_touch?useUnicode=true&characterEncoding=utf8&]]>-->
+			<p key="jdbc.url"><![CDATA[jdbc:mysql://47.90.6.176:3306/smart_hard?useUnicode=true&characterEncoding=utf8&]]>
+			</p>
+
+			<p key="jdbc.username">gmuser</p>
+			<p key="jdbc.password">Fqhx_game_001</p>
+			<p key="jdbc.initialSize">2</p>
+			<p key="jdbc.maxTotal">15</p>
+			<p key="jdbc.minIdle">2</p>
+			<p key="jdbc.maxIdle">10</p>
+			<p key="jdbc.maxWait">30000</p>
+			<p key="jdbc.maxConnLifetime">84600000</p>
+		</dao>
+		<!-- mysql -->
+		<dao name="sh-log-db" class="com.sdk.core.db.DbDaoCreator"
+			enabled="false">
+			<p key="jdbc.driverClassName">com.mysql.jdbc.Driver</p>
+			<!--<p key="jdbc.url"><![CDATA[jdbc:mysql://rds-3rd-002.cc91vexboxbf.us-west-2.rds.amazonaws.com:3306/qt_log?useUnicode=true&characterEncoding=utf8&]]>-->
+			<p key="jdbc.url"><![CDATA[jdbc:mysql://47.90.6.176:3306/smart_hard?useUnicode=true&characterEncoding=utf8&]]>
+			</p>
+
+			<p key="jdbc.username">gmuser</p>
+			<p key="jdbc.password">Fqhx_game_001</p>
+			<p key="jdbc.initialSize">2</p>
+			<p key="jdbc.maxTotal">15</p>
+			<p key="jdbc.minIdle">2</p>
+			<p key="jdbc.maxIdle">10</p>
+			<p key="jdbc.maxWait">30000</p>
+			<p key="jdbc.maxConnLifetime">84600000</p>
+		</dao>
+
+		<!-- jedis -->
+		<dao name="default-jedis" class="com.sdk.core.cache.jedis.JedisDaoCreator"
+			enabled="false">
+			<p key="redisson.use.mode">0</p><!-- 连接模式: 0 Single, 1 MS(默认), 2 Sentinel, 3 Cluster, 4 
+				Sharding -->
+
+			<!-- ######## redisson single + MS server ######## -->
+			<p key="redisson.master">35.162.249.93:6311</p><!--主库连接 -->
+			<p key="redisson.slaves">35.162.249.93:6311</p><!-- 从库连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson sentinel server ######## -->
+			<p key="redisson.master.name">wzServerRedis1</p><!-- 主库名 -->
+			<p key="redisson.sentinels">35.162.249.93:6311</p><!-- 哨兵连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson cluster server ######## -->
+			<p key="redisson.cluster.scan.interval">2000</p><!-- 主库名 -->
+			<p key="redisson.cluster.nodes">35.162.249.93:6311</p><!-- 集群连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson connection setting ######## -->
+			<p key="redisson.conn.retry">2</p>
+			<p key="redisson.conn.retry.interval">2000</p>
+			<p key="redisson.conn.timeout">3000</p>
+			<p key="redisson.timeout">10000</p>
+			<p key="redisson.master.conn.poolsize">1024</p><!-- 主连接池 -->
+			<p key="redisson.slave.conn.poolsize">1024</p><!-- 从连接池 -->
+
+			<!-- ######## redisson common setting######## -->
+			<!-- 负载均衡模式 0 Round Robin 轮询 1 Random 随机 -->
+			<p key="redisson.loadbalance.mode">0</p>
+			<!--<p key="redisson.auth"></p>&lt;!&ndash;redis的认证密码&ndash;&gt;-->
+			<p key="redisson.db.id">2</p><!-- 使用哪一个redis的db -->
+			<p key="redisson.lock.timeout.1">20</p><!-- redis 插入锁时长 10会出错 -->
+			<p key="redisson.codec">com.sdk.core.cache.jedis.codec.JsonJacksonCodec</p><!-- redis 
+				的默认codec -->
+		</dao>
+		<!-- jedis 用于数据库的config配置 从mysql导入的数据 -->
+		<dao name="db-config-jedis" class="com.sdk.core.cache.jedis.JedisDaoCreator"
+			enabled="false">
+			<p key="redisson.use.mode">0</p><!-- 连接模式: 0 Single, 1 MS(默认), 2 Sentinel, 3 Cluster, 4 
+				Sharding -->
+
+			<!-- ######## redisson single + MS server ######## -->
+			<p key="redisson.master">35.162.249.93:6311</p><!-- 主库连接 -->
+			<p key="redisson.slaves">35.162.249.93:6311</p><!-- 从库连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson sentinel server ######## -->
+			<p key="redisson.master.name">wzServerRedis1</p><!-- 主库名 -->
+			<p key="redisson.sentinels">35.162.249.93:6311</p><!-- 哨兵连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson cluster server ######## -->
+			<p key="redisson.cluster.scan.interval">2000</p><!-- 主库名 -->
+			<p key="redisson.cluster.nodes">35.162.249.93:6311</p><!-- 集群连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson connection setting ######## -->
+			<p key="redisson.conn.retry">2</p>
+			<p key="redisson.conn.retry.interval">2000</p>
+			<p key="redisson.conn.timeout">3000</p>
+			<p key="redisson.timeout">10000</p>
+			<p key="redisson.master.conn.poolsize">128</p><!-- 主连接池 -->
+			<p key="redisson.slave.conn.poolsize">128</p><!-- 从连接池 -->
+
+			<!-- ######## redisson common setting######## -->
+			<!-- 负载均衡模式 0 Round Robin 轮询 1 Random 随机 -->
+			<p key="redisson.loadbalance.mode">0</p>
+			<!--<p key="redisson.auth"></p>&lt;!&ndash;redis的认证密码&ndash;&gt;-->
+			<p key="redisson.db.id">2</p><!-- 使用哪一个redis的db -->
+			<p key="redisson.lock.timeout.1">20</p><!-- redis 插入锁时长 10会出错 -->
+			<p key="redisson.codec">com.sdk.core.cache.jedis.codec.JsonJacksonCodec</p><!-- redis 
+				的默认codec -->
+		</dao>
+		<!-- jedis 用于数据data的缓存的, 可能会每日过期 -->
+		<dao name="cache-data-jedis" class="com.sdk.core.cache.jedis.JedisDaoCreator"
+			enabled="false">
+			<p key="redisson.use.mode">0</p><!-- 连接模式: 0 Single, 1 MS(默认), 2 Sentinel, 3 Cluster, 4 
+				Sharding -->
+
+			<!-- ######## redisson single + MS server ######## -->
+			<p key="redisson.master">35.162.249.93:6311</p><!-- 主库连接 -->
+			<p key="redisson.slaves">35.162.249.93:6311</p><!-- 从库连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson sentinel server ######## -->
+			<p key="redisson.master.name">wzServerRedis1</p><!-- 主库名 -->
+			<p key="redisson.sentinels">35.162.249.93:6311</p><!-- 哨兵连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson cluster server ######## -->
+			<p key="redisson.cluster.scan.interval">2000</p><!-- 主库名 -->
+			<p key="redisson.cluster.nodes">35.162.249.93:6311</p><!-- 集群连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson connection setting ######## -->
+			<p key="redisson.conn.retry">2</p>
+			<p key="redisson.conn.retry.interval">2000</p>
+			<p key="redisson.conn.timeout">3000</p>
+			<p key="redisson.timeout">10000</p>
+			<p key="redisson.master.conn.poolsize">50</p><!-- 主连接池 -->
+			<p key="redisson.slave.conn.poolsize">50</p><!-- 从连接池 -->
+
+			<!-- ######## redisson common setting######## -->
+			<!-- 负载均衡模式 0 Round Robin 轮询 1 Random 随机 -->
+			<p key="redisson.loadbalance.mode">0</p>
+			<!--<p key="redisson.auth"></p>&lt;!&ndash;redis的认证密码&ndash;&gt;-->
+			<p key="redisson.db.id">2</p><!-- 使用哪一个redis的db -->
+			<p key="redisson.lock.timeout.1">20</p><!-- redis 插入锁时长 10会出错 -->
+			<p key="redisson.codec">com.sdk.core.cache.jedis.codec.JsonJacksonCodec</p><!-- redis 
+				的默认codec -->
+		</dao>
+		<!-- jedis 用于数据saveToDB的缓冲redis -->
+		<dao name="buffer-jedis" class="com.sdk.core.cache.jedis.JedisDaoCreator"
+			enabled="false">
+			<p key="redisson.use.mode">0</p><!-- 连接模式: 0 Single, 1 MS(默认), 2 Sentinel, 3 Cluster, 4 
+				Sharding -->
+
+			<!-- ######## redisson single + MS server ######## -->
+			<p key="redisson.master">35.162.249.93:6311</p><!-- 主库连接 -->
+			<p key="redisson.slaves">35.162.249.93:6311</p><!-- 从库连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson sentinel server ######## -->
+			<p key="redisson.master.name">wzServerRedis1</p><!-- 主库名 -->
+			<p key="redisson.sentinels">35.162.249.93:6311</p><!-- 哨兵连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson cluster server ######## -->
+			<p key="redisson.cluster.scan.interval">2000</p><!-- 主库名 -->
+			<p key="redisson.cluster.nodes">35.162.249.93:6311</p><!-- 集群连接, 多个逗号分隔 -->
+
+			<!-- ######## redisson connection setting ######## -->
+			<p key="redisson.conn.retry">2</p>
+			<p key="redisson.conn.retry.interval">2000</p>
+			<p key="redisson.conn.timeout">3000</p>
+			<p key="redisson.timeout">10000</p>
+			<p key="redisson.master.conn.poolsize">128</p><!-- 主连接池 -->
+			<p key="redisson.slave.conn.poolsize">128</p><!-- 从连接池 -->
+
+			<!-- ######## redisson common setting######## -->
+			<!-- 负载均衡模式 0 Round Robin 轮询 1 Random 随机 -->
+			<p key="redisson.loadbalance.mode">0</p>
+			<!--<p key="redisson.auth"></p>&lt;!&ndash;redis的认证密码&ndash;&gt;-->
+			<p key="redisson.db.id">2</p><!-- 使用哪一个redis的db -->
+			<p key="redisson.lock.timeout.1">20</p><!-- redis 插入锁时长 10会出错 -->
+			<p key="redisson.codec">com.sdk.core.cache.jedis.codec.JsonJacksonCodec</p><!-- redis 
+				的默认codec -->
+		</dao>
+	</daos>
+</config>
